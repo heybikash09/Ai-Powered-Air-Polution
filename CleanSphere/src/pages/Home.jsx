@@ -1,15 +1,38 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { BarChart3, SatelliteDish, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import VideoBack from "./VideoBack";
 import Streamlit from "./Streamlit";
-import { NavLink } from "react-router-dom";
-
+import SatelliteCard from "../Card/SatelliteCard";
+import GroundTruthCard from "../Card/GroundTruthCard";
+import MlCard from "../Card/MlCard";
+const ourTeam = [
+  {
+    name: "Prakash Sahoo",
+    role: "ML Engineer",
+    stack: ["scikit-learn", "Pandas", "NumPy"],
+  },
+  {
+    name: "Susmita Das",
+    role: "Frontend Developer",
+    stack: ["React", "Tailwind CSS", "Framer Motion"],
+  },
+  {
+    name: "Manohar Kumar Sah",
+    role: "Data Scientist",
+    stack: ["R", "XGBoost", "Satellite Imagery"],
+  },
+  {
+    name: "Bikash Ranjan Ghadai",
+    role: "Backend Developer",
+    stack: ["Node.js", "Express", "MongoDB"],
+  },
+];
 function Home() {
-  const heatmapRef = useRef(null); // 1. Create a ref
-
+  const heatmapRef = useRef(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const scrollToHeatmap = () => {
-    heatmapRef.current?.scrollIntoView({ behavior: "smooth" }); // 2. Smooth scroll
+    heatmapRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const features = [
@@ -17,106 +40,159 @@ function Home() {
       title: "Satellite Data Integration",
       description:
         "Utilize INSAT-3D/3DR/3DS satellites for real-time AOD measurements across the Indian subcontinent.",
-      icon: (
-        <SatelliteDish color="yellow" className="h-10 w-10 text-indigo-400" />
-      ),
+      icon: <SatelliteDish className="h-10 w-10 text-indigo-400" />,
+      content: <SatelliteCard />,
     },
     {
       title: "Machine Learning Models",
       description:
         "Random Forest algorithms trained on AOD and meteorological data for accurate PM predictions.",
-      icon: <BarChart3 color="yellow" className="h-10 w-10 text-teal-400" />,
+      icon: <BarChart3 className="h-10 w-10 text-teal-400" />,
+      content: <MlCard />,
     },
     {
       title: "Ground Truth Validation",
       description:
         "CPCB ground station data for model validation and real-time comparison of predictions.",
-      icon: (
-        <ShieldCheck color="yellow" className="h-10 w-10 text-purple-400" />
-      ),
+      icon: <ShieldCheck className="h-10 w-10 text-purple-400" />,
+      content: <GroundTruthCard />,
     },
   ];
-  const heroImage = "src/assets/image.png";
-
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: "easeOut" },
-  };
 
   return (
-    <>
-      <div className="space-y-0">
-        {/* Hero Section */}
-        <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
-          <VideoBack />
-        </section>
+    <div className="w-full" onClick={() => setHoveredIndex(null)}>
+      {/* ================= HERO SECTION ================= */}
+      <section className="relative min-h-[400px] sm:min-h-[500px] md:min-h-[600px] flex items-center justify-center overflow-hidden">
+        <VideoBack />
+      </section>
 
-        {/* Project Overview */}
-        <section className="py-20 bg-black -mt-10 relative z-10 ">
-          <div
-            className="absolute top-0 left-0 w-full h-20 pointer-events-none"
-            style={{
-              boxShadow: "0 -40px 100px 100px rgba(0, 0, 0, 0.98)",
-              zIndex: 30,
-            }}
-          />  
-        </section>
-        <section className="py-20 bg-black -mt-52 overflow-hidden relative z-40 ">
-          <div className="container mx-auto px-6 relative z-20 mt-10 ">
+      {/* ================= BLACK SPACER ================= */}
+      <section className="bg-black relative z-10">
+        <div
+          className="absolute top-0 left-0 w-full h-20 pointer-events-none"
+          style={{
+            boxShadow: "0 -40px 100px 100px rgba(0, 0, 0, 0.98)",
+            zIndex: 30,
+          }}
+        />
+      </section>
+
+      {/* ================= PROJECT OVERVIEW ================= */}
+      <section
+        onClick={() => setHoveredIndex(null)}
+        className="w-full py-16 sm:py-20 bg-black relative z-40 -mt-10"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="text-center max-w-3xl mx-auto mb-12"
+          >
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 text-yellow-500">
+              Project Overview
+            </h2>
+            <p className="text-green-400 text-lg sm:text-xl font-semibold leading-relaxed">
+              Estimating PM concentrations using INSAT AOD data and weather
+              variables powered by machine learning.
+            </p>
+          </motion.div>
+          <div className=" flex justify-center text-amber-400 font-bold p-3">Click on cards to View</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+            {features.map((feature, i) => (
+              <motion.div
+                key={i}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setHoveredIndex(i);
+                }}
+                // onMouseLeave={() => setHoveredIndex(null)}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 * i, duration: 0.6 }}
+                className="bg-cyan-500 p-6 sm:p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow  hover:bg-cyan-300 cursor-pointer"
+              >
+                <div className="mb-5">{feature.icon}</div>
+                <h3 className="text-xl sm:text-2xl font-bold mb-2 text-indigo-900">
+                  {feature.title}
+                </h3>
+                <p className="text-black text-sm sm:text-base leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {hoveredIndex !== null && (
+          <>
+            {/* Blur background overlay */}
+            <div
+              className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+              onClick={() => setHoveredIndex(null)}
+            />
+
+            {/* Modal itself */}
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="text-center max-w-3xl mx-auto mb-14"
+              key={hoveredIndex}
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed top-1/2 left-1/2 z-50 transform -translate-x-1/2 -translate-y-1/2 bg-white text-black p-6 rounded-2xl shadow-2xl w-[65%] md:w-[50%] h-[60%] text-center overflow-scroll"
             >
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-yellow-500">
-                Project Overview
-              </h2>
-              <p className="text-green-400 text-xl font-bold leading-relaxed">
-                Estimating PM concentrations using INSAT AOD data and weather
-                variables powered by machine learning.
+              <h3 className="text-xl font-bold text-indigo-700 mb-2">
+                {features[hoveredIndex].title}
+              </h3>
+              <p className="text-gray-700 text-sm w-full">
+                {features[hoveredIndex].content}
               </p>
             </motion.div>
+          </>
+        )}
+      </section>
 
-            <div className="grid md:grid-cols-3 gap-10">
-              {features.map((feature, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 * i, duration: 0.6 }}
-                  className="bg-cyan-500 p-8 rounded-2xl shadow-md hover:shadow-xl transition-shadow cursor-default hover:bg-cyan-300"
-                >
-                  <div className="mb-5">{feature.icon}</div>
-                  <h3 className="text-2xl font-bold mb-2 text-indigo-900">
-                    {feature.title}
-                  </h3>
-                  <p className="text-black text-md leading-relaxed">
-                    {feature.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* PM Concentration Heatmap */}
-        {/* <section
-          ref={heatmapRef} // 4. Reference target section
-          className="border border-gray-200 rounded-lg p-4 mt-10"
-        >
-          <h2 className="text-xl font-bold mb-1">PM Concentration Heatmap</h2>
-          <p className="text-gray-600 mb-4">
-            Interactive map showing concentrations with CPCB station data
+      {/* ================= OUR TEAM SECTION ================= */}
+      <section className="w-full py-16 sm:py-20 bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-yellow-400 mb-6">
+            Our Team
+          </h2>
+          <p className="text-gray-300 text-lg sm:text-xl mb-12">
+            Meet the researchers and engineers behind this project.
           </p>
 
-          <div className="relative h-0 pb-[45%] rounded-xl border-2 border-dashed border-gray-400 bg-gradient-to-br from-blue-400/20 to-green-500/20 flex items-center justify-center overflow-hidden text-gray-700 font-semibold">
-            <Streamlit />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {ourTeam.map((member, i) => (
+              <div
+                key={i}
+                className="relative group bg-gray-800 text-white rounded-2xl p-6 shadow-lg transition-all duration-500 hover:bg-indigo-900 min-h-[115px] overflow-hidden"
+              >
+                {/* Basic Info */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-1 text-yellow-400">
+                    {member.name}
+                  </h3>
+                  <p className="text-gray-300">{member.role}</p>
+                </div>
+
+                {/* Hover-reveal section */}
+                <div className="absolute left-0 right-0 bottom-0 bg-gray-900 p-4 transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
+                  <h4 className="text-white font-semibold text-sm mb-2">
+                    Tech Stack
+                  </h4>
+                  <ul className="text-xs text-gray-300 space-y-1">
+                    {member.stack.map((tech, j) => (
+                      <li key={j}>• {tech}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
           </div>
-        </section> */}
-      </div>
-    </>
+        </div>
+      </section>
+    </div>
   );
 }
 

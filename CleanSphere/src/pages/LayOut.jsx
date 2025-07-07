@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import earthImg from "../assets/v176ox7k.png";
 
 function LayOut() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,35 +16,23 @@ function LayOut() {
   //     bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-800 dark:text-gray-100
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-800 dark:text-gray-100 
-
+      className="min-h-screen w-[100vw] bg-gradient-to-br from-blue-50 via-purple-50 to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-800 dark:text-gray-100 
+bg-red-700
     transition-colors duration-300 flex flex-col"
     >
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-white/70 dark:bg-gray-900/70 backdrop-blur shadow-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8">
           <NavLink to="/" className="flex items-center space-x-3">
-            <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-blue-400 to-green-400 shadow-md"></div>
+            <img
+              className="h-9 w-9 rounded-full bg-gradient-to-tr from-blue-400 to-green-400 shadow-md"
+              src={earthImg}
+              alt="logo"
+            />
             <span className="text-2xl font-bold tracking-wide">
-              ClearSphere
+              VaayuDrishti
             </span>
           </NavLink>
-          {/* <div className="flex items-center space-x-3">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-full hover:bg-blue-100 dark:hover:bg-gray-700 transition"
-              aria-label="Toggle Dark Mode"
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-full hover:bg-blue-100 dark:hover:bg-gray-700 transition"
-              aria-label="Toggle Mobile Menu"
-            >
-              <Menu size={20} />
-            </button>
-          </div> */}
         </div>
 
         {mobileMenuOpen && (
@@ -78,7 +67,7 @@ function LayOut() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="flex-1 container mx-auto px-4 py-8 md:px-8"
+        className="flex-1 container  w-full"
       >
         <Outlet />
       </motion.main>
