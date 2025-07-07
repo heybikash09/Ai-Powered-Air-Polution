@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { NavLink } from "react-router-dom";
 import { BarChart3 } from "lucide-react";
+import vdosrc from '../assets/WhatsApp Video 2025-07-07 at 18.19.59_9b4f4809.mp4'
 function VideoBack() {
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
@@ -19,7 +20,7 @@ function VideoBack() {
         playsInline
       >
         <source
-          src="src/assets/WhatsApp Video 2025-07-07 at 18.19.59_9b4f4809.mp4"
+          src={vdosrc}
           type="video/mp4"
         />
         Your browser does not support the video tag.
