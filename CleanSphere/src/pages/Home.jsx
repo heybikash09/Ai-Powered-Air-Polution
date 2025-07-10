@@ -9,31 +9,27 @@ import MlCard from "../Card/MlCard";
 const ourTeam = [
   {
     name: "Prakash Sahoo",
-    role: "ML Engineer",
-    stack: ["scikit-learn", "Pandas", "NumPy"],
+    linkedin:"https://www.linkedin.com/in/prakash-sahoo-ai/"
   },
   {
     name: "Susmita Das",
-    role: "Frontend Developer",
-    stack: ["React", "Tailwind CSS", "Framer Motion"],
+    linkedin:"https://www.linkedin.com/in/susmita-das-2b61a6312"
   },
   {
     name: "Manohar Kumar Sah",
-    role: "Data Scientist",
-    stack: ["R", "XGBoost", "Satellite Imagery"],
+    linkedin:"https://www.linkedin.com/in/manoharkumarsah/"
   },
   {
     name: "Bikash Ranjan Ghadai",
-    role: "Backend Developer",
-    stack: ["Node.js", "Express", "MongoDB"],
+    linkedin:"www.linkedin.com/in/bikash-ranjan-ghadai-a23710299"
   },
 ];
 function Home() {
-  const heatmapRef = useRef(null);
+  // const heatmapRef = useRef(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const scrollToHeatmap = () => {
-    heatmapRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  // const scrollToHeatmap = () => {
+  //   heatmapRef.current?.scrollIntoView({ behavior: "smooth" });
+  // };
 
   const features = [
     {
@@ -161,33 +157,13 @@ function Home() {
           <p className="text-gray-300 text-lg sm:text-xl mb-12">
             Meet the researchers and engineers behind this project.
           </p>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {ourTeam.map((member, i) => (
-              <div
-                key={i}
-                className="relative group bg-gray-800 text-white rounded-2xl p-6 shadow-lg transition-all duration-500 hover:bg-indigo-900 min-h-[115px] overflow-hidden"
-              >
-                {/* Basic Info */}
-                <div>
+                <a key={i} className="relative group bg-gray-800 text-white rounded-2xl p-6 shadow-lg transition-all duration-500 hover:bg-indigo-900 min-h-[80px] overflow-hidden cursor-pointer" href={member.linkedin}>
                   <h3 className="text-xl font-semibold mb-1 text-yellow-400">
                     {member.name}
                   </h3>
-                  <p className="text-gray-300">{member.role}</p>
-                </div>
-
-                {/* Hover-reveal section */}
-                <div className="absolute left-0 right-0 bottom-0 bg-gray-900 p-4 transform translate-y-full group-hover:translate-y-0 transition-all duration-500">
-                  <h4 className="text-white font-semibold text-sm mb-2">
-                    Tech Stack
-                  </h4>
-                  <ul className="text-xs text-gray-300 space-y-1">
-                    {member.stack.map((tech, j) => (
-                      <li key={j}>• {tech}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+                </a>
             ))}
           </div>
         </div>
